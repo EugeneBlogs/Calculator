@@ -148,3 +148,58 @@ function memory(name) {
     remembered = eval(exp);
   }
 }
+
+// Калькулятор оценок
+let divisible = 0
+let divider = 0
+let n = 1
+
+document.querySelector('button.add_marks_btn').addEventListener('click', function (e) {
+  let t = document.getElementById("tag").value
+  let m = document.getElementById("mark").value
+  let c = document.getElementById("coefficient").value
+  if (c == null || c == "") {
+    c = "1"
+  }
+  divisible += eval(m * c)
+  divider += eval(c)
+  let middle = eval(divisible / divider)
+  middle = Math.round(middle * Math.pow(10, 2)) / Math.pow(10, 2);
+  document.getElementById("middle_mark").innerHTML = `Средний балл: ${middle}.`
+  let rounded = Math.round(middle)
+  document.getElementById("final_mark").innerHTML = `Итоговая оценка: ${rounded}.`
+  if (rounded == "5") {
+    document.getElementById("final_mark").style.color = "green"
+  } else if (rounded == "4") {
+    document.getElementById("final_mark").style.color = "lightgreen"
+  } else if (rounded == "3") {
+    document.getElementById("final_mark").style.color = "orange"
+  } else if (rounded == "2") {
+    document.getElementById("final_mark").style.color = "red"
+  } else {
+    document.getElementById("final_mark").style.color = "blue"
+  }
+  document.querySelector('.list').insertAdjacentHTML('beforeend',
+    ` 
+<tr>
+<td>${n}</td>
+<td>${t}</td>
+<td>${m}</td>
+<td>${c}</td>
+</tr>      
+`)
+  n++
+})
+
+document.querySelector('button.clear_marks_btn').addEventListener('click', function (e) {
+  divisible = 0
+  divider = 0
+  n = 1
+  document.getElementById("tag").value = ""
+  document.getElementById("mark").value = ""
+  document.getElementById("coefficient").value = ""
+  document.querySelector('.list').innerHTML = ""
+  document.getElementById("middle_mark").innerHTML = `Средний балл: 0.`
+  document.getElementById("final_mark").innerHTML = `Итоговая оценка: 0.`
+  document.getElementById("final_mark").style.color = "black"
+})
